@@ -1,1 +1,1 @@
-# random.server
+# http://server.casino
