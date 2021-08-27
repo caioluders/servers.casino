@@ -1,4 +1,5 @@
 async function fetchWithTimeout(resource, options) {
+  // from here : https://dmitripavlutin.com/timeout-fetch-request/
   const { timeout = 1000 } = options;
   
   const controller = new AbortController();
@@ -17,8 +18,16 @@ function int2ip (ipInt) {
     return ( (ipInt>>>24) +'.' + (ipInt>>16 & 255) +'.' + (ipInt>>8 & 255) +'.' + (ipInt & 255) );
 }
 
+
+isPrivate = function(ip) {
+  // from https://gist.github.com/TheBigSadowski/5105254
+  return /^10\.|^192\.168\.|^172\.16\.|^172\.17\.|^172\.18\.|^172\.19\.|^172\.20\.|^172\.21\.|^172\.22\.|^172\.23\.|^172\.24\.|^172\.25\.|^172\.26\.|^172\.27\.|^172\.28\.|^172\.29\.|^172\.30\.|^172\.31\./.test(ip);
+  }
+
 function randomIP() {
-	return int2ip(Math.random()*4294967296) ;
+	var ip = int2ip(Math.random()*4294967296) ;
+	if ( isPrivate(ip) ) return randomIP() ;
+	return ip ;
 }
 
 async function tryIP(ip) {
