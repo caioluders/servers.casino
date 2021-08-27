@@ -22,9 +22,10 @@ function randomIP() {
 }
 
 async function tryIP(ip) {
-	const r = await fetchWithTimeout("http://"+ip, {mode:"no-cors"}).catch(e => {
-    return e;
-  });
+	const port = document.getElementById("port").value;
+	const r = await fetchWithTimeout("http://"+ip+":"+port, {mode:"no-cors"}).catch(e => {
+		return e;
+	});
 	return [r,ip];
 }
 
