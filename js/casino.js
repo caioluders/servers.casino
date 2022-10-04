@@ -55,16 +55,15 @@ async function findIP() {
 
 function goToIp() {
 	var w = findIP() ;
+	var port = document.getElementById("port").value;
 	document.getElementById("spinner").style.display = "block";
 	document.getElementById("server_link").style.display = "none";
-	document.getElementById("server_iframe").style.display = "none";
 	w.then( (ip) => {
 		document.getElementById("spinner").style.display = "none";
 		document.getElementById("server_link").href = "http://"+ip;
 		document.getElementById("server_link").innerText = "http://"+ip;
-		document.getElementById("server_iframe").src = "http://"+ip;
-		document.getElementById("server_iframe").style.display = "block";
 		document.getElementById("server_link").style.display = "block";
+		window.open("http://"+ip+":"+port)
 	});
 	document.getElementById("server_card").classList.remove("view_site")
 }
