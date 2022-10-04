@@ -32,7 +32,7 @@ function randomIP() {
 
 async function tryIP(ip) {
 	const port = document.getElementById("port").value;
-	const r = await fetchWithTimeout("http://"+ip+":"+port, {mode:"no-cors"}).catch(e => {
+	const r = await fetchWithTimeout("https://"+ip+":"+port, {mode:"no-cors"}).catch(e => {
 		return e;
 	});
 	return [r,ip];
@@ -60,10 +60,10 @@ function goToIp() {
 	document.getElementById("server_link").style.display = "none";
 	w.then( (ip) => {
 		document.getElementById("spinner").style.display = "none";
-		document.getElementById("server_link").href = "http://"+ip;
-		document.getElementById("server_link").innerText = "http://"+ip;
+		document.getElementById("server_link").href = "https://"+ip+":"+port;
+		document.getElementById("server_link").innerText = "https://"+ip+":"+port;
 		document.getElementById("server_link").style.display = "block";
-		window.open("http://"+ip+":"+port)
+		window.open("https://"+ip+":"+port)
 	});
 	document.getElementById("server_card").classList.remove("view_site")
 }
