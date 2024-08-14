@@ -1,1 +1,1 @@
-# https://lude.rs/server.casino/
+# http://servers.casino/
