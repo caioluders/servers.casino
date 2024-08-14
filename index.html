@@ -1,68 +1,116 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>server.casino</title>
-  <link rel="stylesheet" href="https://unpkg.com/chota@latest">
-  <style>
-      body {
-        --bg-color: #000;
-        --bg-secondary-color: #131316;
-        --font-color: #f5f5f5;
-        --color-grey: #ccc;
-        --color-darkGrey: #777;
-      }
-
-      .view_site {
-        display: none;
-      }
-
-      .loader {
-        border: 16px solid #f3f3f3; /* Light grey */
-        border-top: 16px solid #3498db; /* Blue */
-        border-radius: 50%;
-        width: 1em;
-        height: 1em;
-        animation: spin 2s linear infinite;
-      }
-
-
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>servers.casino</title>
+    <link rel="stylesheet" href="https://unpkg.com/chota@latest">
+    <style>
+        body {
+            --bg-color: #000;
+            --bg-secondary-color: #131316;
+            --font-color: #f5f5f5;
+            --color-grey: #ccc;
+            --color-darkGrey: #777;
+            background-color: var(--bg-color);
+            color: var(--font-color);
+        }
+        .container {
+            max-width: 500px;
+            margin: 1em auto;
+            padding: 2em;
+            background-color: var(--bg-secondary-color);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .view_site {
+            display: none;
+        }
+        .loader {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1em;
+        }
+        .input-group label {
+            margin-right: 0.5em;
+            flex: 0 0 100px;
+        }
+        .input-group input {
+            flex: 1;
+            padding: 0.5em;
+            border-radius: 4px;
+            border: none;
+            background-color: #2d2d2d;
+            color: var(--font-color);
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 0.75em;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button.primary {
+            background-color: #3498db;
+            color: #fff;
+        }
+        .button.primary:hover {
+            background-color: #2980b9;
+        }
+        footer {
+            margin-top: 2em;
+            text-align: center;
+            color: var(--color-darkGrey);
+        }
+        footer a {
+            color: var(--color-grey);
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
-  
-  <div id="top" class="container" role="document">
-     <header role="banner">
-        <h1 class="pull-right" style="margin: 0;">
-        </h1>
-        <h1>server.casino 🎰</h1>
-        <div class="clearfix"></div>
-        <p>Bored? Find truly random and unique servers to mess with.</p>
-	<div class="row">
-		<label class="col" for="port">Port :</label>
-		<input class="col" type="number" id="port" min="0" max="65535" value="443">
-	</div>
-        <a class="button primary" onclick="goToIp()">Find a Server</a>
-      </header>
-
-
-
-      <div id="server_card" class="view_site card">
-        <header>
-          <div id="spinner" class="loader"></div>
-          <h4> <a id="server_link" target="_blank"></a> </h4>
+    <div id="top" class="container" role="document">
+        <header role="banner">
+            <h1>servers.casino 🎰</h1>
+            <p>Find truly unique random servers to explore!</p>
+            <p><i>Everything done directly via your browser</i></p>
+            <p id="httpsWarning" style="color: #ff9800; display: none;">⚠️ HTTPS searches uses time-base and may result in false positives. Change the threshold depending on your network.<br>Use the HTTP version <a href="http://servers.casino" style="color: blue;">http://servers.casino:80</a> for more accurate results.</p>
+            <div class="input-group">
+                <label for="port">Port:</label>
+                <input type="number" id="port" min="0" max="65535" value="80">
+            </div>
+            <div class="input-group" id="thresholdRow" style="display: none;">
+                <label for="threshold">Threshold(ms):</label>
+                <input type="number" id="threshold" min="1000" max="10000" value="5000">
+            </div>
+            <a class="button primary" id="toggleButton" onclick="toggleSearch()">Find a Server</a>
         </header>
-      </div>
-
-      <a href="https://github.com/caioluders/server.casino">github.com/caioluders/server.casino</a>
-
-
-  </div>
+        <div id="server_card" class="view_site card">
+            <header>
+                <div id="spinner" class="loader"></div>
+                <h4><a id="server_link" target="_blank"></a></h4>
+                <p id="server_info"></p>
+            </header>
+        </div>
+        <footer>
+            <a href="https://github.com/caioluders/servers.casino">github.com/caioluders/server.casino</a>
+        </footer>
+    </div>
+    <script type="text/javascript" src="js/casino.js"></script>
 </body>
-<script type="text/javascript" src="js/casino.js"></script>
 </html>
