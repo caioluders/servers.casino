@@ -2,9 +2,9 @@ let isSearching = false;
 let searchTimeout = null;
 let currentIPs = [];
 let intervalId = null;
+let serversFound = 0;
 
 //whole lotta of AI garbagge code that im not gonna touch (:
-
 
 async function fetchWithTimeout(resource, options) {
     // from here : https://dmitripavlutin.com/timeout-fetch-request/
@@ -95,7 +95,7 @@ function updateServerInfo() {
 
     const serverInfo = document.getElementById("server_info");
     currentIPs.push(currentIPs.shift());
-    serverInfo.textContent = `Searching for a server...     ${currentIPs[0]}`;
+    serverInfo.textContent = `Searching for servers... ${currentIPs[0]} (Found: ${serversFound})`;
 }
 
 function checkHttpsServerTiming(url, threshold = 5000) {
@@ -153,9 +153,13 @@ async function searchStep() {
     const result = await findIP();
     if (result) {
         displayResult(result);
-    } else {
-        searchTimeout = setTimeout(searchStep, 100);
+        const continuousSearch = document.getElementById("continuousSearch").checked;
+        if (!continuousSearch) {
+            stopSearch();
+            return;
+        }
     }
+    searchTimeout = setTimeout(searchStep, 100);
 }
 
 function displayResult(result) {
@@ -170,11 +174,9 @@ function displayResult(result) {
     serverLink.textContent = url;
     serverLink.style.display = "block";
 
-    serverInfo.textContent = result.message;
+    serversFound++;
+    serverInfo.textContent = `Found: ${serversFound} servers. Latest: ${result.message}`;
     
-    isSearching = false;
-    updateButton();
-
     const newWindow = window.open(url, '_blank');
 }
 
@@ -192,31 +194,44 @@ function updateButton() {
 }
 
 function toggleSearch() {
+    if (!isSearching) {
+        startSearch();
+    } else {
+        stopSearch();
+    }
+}
+
+function startSearch() {
+    isSearching = true;
+    serversFound = 0;
+    updateButton();
+    
     const serverCard = document.getElementById("server_card");
     const spinner = document.getElementById("spinner");
     const serverLink = document.getElementById("server_link");
     const serverInfo = document.getElementById("server_info");
+    
+    serverCard.classList.remove("view_site");
+    spinner.style.display = "block";
+    serverLink.style.display = "none";
+    serverInfo.textContent = "Searching for servers...";
 
-    if (!isSearching) {
-        isSearching = true;
-        updateButton();
-        
-        serverCard.classList.remove("view_site");
-        spinner.style.display = "block";
-        serverLink.style.display = "none";
-        serverInfo.textContent = "Searching for a server...";
+    searchStep();
+}
 
-        searchStep();
-    } else {
-        isSearching = false;
-        if (searchTimeout) {
-            clearTimeout(searchTimeout);
-            searchTimeout = null;
-        }
-        updateButton();
-        spinner.style.display = "none";
-        serverInfo.textContent = "Search stopped";
+function stopSearch() {
+    isSearching = false;
+    if (searchTimeout) {
+        clearTimeout(searchTimeout);
+        searchTimeout = null;
     }
+    updateButton();
+    
+    const spinner = document.getElementById("spinner");
+    const serverInfo = document.getElementById("server_info");
+    
+    spinner.style.display = "none";
+    serverInfo.textContent = `Search stopped. Found ${serversFound} servers.`;
 }
 
 // Set default port based on current protocol

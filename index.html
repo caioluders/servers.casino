@@ -64,6 +64,7 @@
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s;
+            margin-bottom: 1em;
         }
         .button.primary {
             background-color: #3498db;
@@ -71,6 +72,15 @@
         }
         .button.primary:hover {
             background-color: #2980b9;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1em;
+        }
+        .checkbox-group label {
+            margin-left: 0.5em;
+            cursor: pointer;
         }
         footer {
             margin-top: 2em;
@@ -90,6 +100,8 @@
             <p>Find truly unique random servers to explore!</p>
             <p><i>Everything done directly via your browser</i></p>
             <p id="httpsWarning" style="color: #ff9800; display: none;">⚠️ HTTPS searches uses time-base and may result in false positives. Change the threshold depending on your network.<br>Use the HTTP version <a href="http://servers.casino" style="color: blue;">http://servers.casino:80</a> for more accurate results.</p>
+            <label for="continuousSearch">Infinite Search:</label>
+            <input type="checkbox" id="continuousSearch" name="continuousSearch">
             <div class="input-group">
                 <label for="port">Port:</label>
                 <input type="number" id="port" min="0" max="65535" value="80">
@@ -98,6 +110,7 @@
                 <label for="threshold">Threshold(ms):</label>
                 <input type="number" id="threshold" min="1000" max="10000" value="5000">
             </div>
+            
             <a class="button primary" id="toggleButton" onclick="toggleSearch()">Find a Server</a>
         </header>
         <div id="server_card" class="view_site card">
