@@ -135,11 +135,12 @@ async function findIP() {
     const port = document.getElementById("port").value;
     const protocol = port == '443' ? 'https' : 'http';
     const threshold = protocol === 'https' ? parseInt(document.getElementById("threshold").value) : 5000;
+    const concurrentRequests = parseInt(document.getElementById("concurrentRequests").value);
     
     intervalId = setInterval(updateServerInfo, 500);
 
     while (isSearching) {
-        var ips = new Array(10).fill().map(randomIP);
+        var ips = new Array(concurrentRequests).fill().map(randomIP);
         currentIPs = ips;
         const results = await Promise.all(ips.map(ip => tryIP(ip, port, protocol, threshold)));
         const found = results.find(r => r.exists);

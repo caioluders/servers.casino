@@ -82,6 +82,16 @@
             margin-left: 0.5em;
             cursor: pointer;
         }
+        .advanced-options {
+            background-color: #1a1a1a;
+            padding: 1em;
+            border-radius: 4px;
+            margin-bottom: 1em;
+        }
+        .advanced-options summary {
+            cursor: pointer;
+            user-select: none;
+        }
         footer {
             margin-top: 2em;
             text-align: center;
@@ -100,17 +110,25 @@
             <p>Find truly unique random servers to explore!</p>
             <p><i>Everything done directly via your browser</i></p>
             <p id="httpsWarning" style="color: #ff9800; display: none;">⚠️ HTTPS searches uses time-base and may result in false positives. Change the threshold depending on your network.<br>Use the HTTP version <a href="http://servers.casino" style="color: blue;">http://servers.casino:80</a> for more accurate results.</p>
-            <label for="continuousSearch">Infinite Search:</label>
-            <input type="checkbox" id="continuousSearch" name="continuousSearch">
             <div class="input-group">
                 <label for="port">Port:</label>
                 <input type="number" id="port" min="0" max="65535" value="80">
             </div>
-            <div class="input-group" id="thresholdRow" style="display: none;">
-                <label for="threshold">Threshold(ms):</label>
-                <input type="number" id="threshold" min="1000" max="10000" value="5000">
-            </div>
-            
+            <details class="advanced-options">
+                <summary>Advanced Options</summary>
+                <div class="input-group" id="thresholdRow">
+                    <label for="threshold">Threshold(ms):</label>
+                    <input type="number" id="threshold" min="1000" max="10000" value="5000">
+                </div>
+                <div class="input-group">
+                    <label for="concurrentRequests">Concurrent Requests:</label>
+                    <input type="number" id="concurrentRequests" min="1" max="100" value="10">
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="continuousSearch" name="continuousSearch">
+                    <label for="continuousSearch">Enable Continuous Search</label>
+                </div>
+            </details>
             <a class="button primary" id="toggleButton" onclick="toggleSearch()">Find a Server</a>
         </header>
         <div id="server_card" class="view_site card">
